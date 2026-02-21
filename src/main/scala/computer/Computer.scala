@@ -4,6 +4,7 @@ import computer.Precision.{ComboOperand, LiteralOperand}
 import computer.*
 import lang.Instruction.*
 import lang.{Instruction, Program}
+import math.min
 
 class Computer (private val program: Program, private val state: State = State.initial) {
 
@@ -39,7 +40,8 @@ class Computer (private val program: Program, private val state: State = State.i
       case Jnz(rand) =>
         if (state.x != 0) {
           val LiteralOperand(l) = rand
-          state.ip = l >> 1 // divide by 2 because we parsed the instructions and their arguments.
+
+          state.ip = min(l >> 1, program.instructions.size-1)  // divide by 2 because we parsed the instructions and their arguments.
         }
       case Yxz =>
         state.y = state.y ^ state.z

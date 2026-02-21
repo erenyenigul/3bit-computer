@@ -11,8 +11,11 @@ class IntegrationTest extends AnyFunSuite {
         val computer = Computer(program, state)
 
         assert(computer.run() == expected)
-      case _ =>
-        fail(s"Parser failed to process the code: $code")
+      case Parser.Failure(msg, _) =>
+        fail(s"Parser failed to process the code: $code with message: $msg")
+
+      case Parser.Error(msg, _) =>
+        fail(s"Parser failed to process the code: $code with message: $msg")
     }
   }
 
@@ -53,6 +56,14 @@ class IntegrationTest extends AnyFunSuite {
       code = "0,1,5,4,3,0",
       state = State(2024, 0, 0),
       expected = "4,2,5,6,7,7,7,7,3,1,0"
+    )
+  }
+
+  test("Extra example: out of bounds jump should not crash") {
+    assertParseAndRunResultEquals(
+      code = "3,6",
+      state = State(1, 0, 0),
+      expected = ""
     )
   }
 }

@@ -9,8 +9,8 @@ import math.min
 
 /**
  * Executes a given program with an initial state. `Program` and  `State` is provided in the constructor, then `run()` method should be called.
- * @param program
- * @param state
+ * @param program to execute
+ * @param state to initialize the computer
  */
 class Computer (private val program: Program, private val state: State = State.initial) {
 

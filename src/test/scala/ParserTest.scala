@@ -1,4 +1,4 @@
-import computer.Precision.{ComboOperand, LiteralOperand}
+import computer.Operands.{ComboOperand, LiteralOperand}
 import lang.Instruction.*
 import lang.{Parser, Program}
 import org.scalatest.funsuite.AnyFunSuite
@@ -57,6 +57,6 @@ class ParserTest extends AnyFunSuite {
   }
 
   test("Combo argument can't be 7") {
-    assertShouldFailParse("0, 7")
+    assertShouldFailParse("0,7")
   }
 }

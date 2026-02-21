@@ -1,10 +1,16 @@
 package lang
 
-import computer.Precision.*
+import computer.Operands.*
 import lang.Instruction.*
 import lang.Parser.repsep
 
 import scala.util.parsing.combinator.*
+
+/**
+ * A special parser for the specified language.
+ * I could have just split the given strings and start executing the code right away.
+ * However, I wanted to create something that is maintainable and extendable, even though it is just for an interview.
+ */
 
 object Parser extends RegexParsers {
 

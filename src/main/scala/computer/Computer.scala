@@ -1,6 +1,6 @@
 package computer
 
-import computer.Precision.{ComboOperand, LiteralOperand}
+import computer.Operands.{ComboOperand, LiteralOperand}
 import computer.*
 import lang.Instruction.*
 import lang.{Instruction, Program}
@@ -8,21 +8,38 @@ import math.min
 
 class Computer (private val program: Program, private val state: State = State.initial) {
 
+  /**
+   * Instruction fetching logic to be used in every computation step. Increments instruction pointer with every call.
+   * @return Instruction
+   */
   private def fetch(): Instruction = {
+    // We don't do out-of-bounds checks here. The jumps are guaranteed to be within bounds.
+    // Checking with every fetch would be costly.
+
     val next = program.instructions(state.ip)
     state.ip += 1
 
     next
   }
 
+  /**
+   * Returns a register value or the operand itself depending on the given combo operand.
+   * @param rand Combo Operand
+   * @return Int
+   */
   private def comboToValue(rand: ComboOperand): Int = rand match {
     case ComboOperand(4) => state.x
     case ComboOperand(5) => state.y
     case ComboOperand(6) => state.z
-    // 0,1,2,3
+    // 0,1,2,3. Remark: ComboOperands are opaque type integers.
     case ComboOperand(other) => other
   }
 
+  /**
+    Tail recursive main execution loop.
+    Fetches an instruction, does pattern matching, calls itself at the end.
+    Executes instructions.
+   */
   @scala.annotation.tailrec
   private def loop(): String = {
     fetch() match {
@@ -62,6 +79,10 @@ class Computer (private val program: Program, private val state: State = State.i
     loop()
   }
 
+  /**
+   * Executes the program with the given initial state. If called more than once, a cached value is returned.
+   * @return Output of the program
+   */
   def run(): String = {
     if (state.completed) state.out.mkString(",")
     else loop()

@@ -2,21 +2,8 @@ package computer
 
 import computer.Precision.{ComboOperand, LiteralOperand}
 import computer.*
-import lang.Program
-
-import scala.collection.mutable.ListBuffer
-
-class State (var x: Int, var y: Int, var z: Int) {
-  var ip: Int = 0
-  var out: ListBuffer[Int] = ListBuffer[Int]()
-  var completed: Boolean = false
-
-  override def toString: String = s"State(ip=$ip, x=$x, y=$y, z=$z, out=${out.toString()})"
-}
-
-object State {
-  def initial = State(0, 0, 0)
-}
+import lang.Instruction.*
+import lang.{Instruction, Program}
 
 class Computer (private val program: Program, private val state: State = State.initial) {
 
@@ -54,7 +41,7 @@ class Computer (private val program: Program, private val state: State = State.i
           val LiteralOperand(l) = rand
           state.ip = l >> 1 // divide by 2 because we parsed the instructions and their arguments.
         }
-      case Yxz() =>
+      case Yxz =>
         state.y = state.y ^ state.z
 
       case Out(rand) =>
@@ -67,7 +54,7 @@ class Computer (private val program: Program, private val state: State = State.i
       case Zdv(rand) =>
         state.z = state.x >> comboToValue(rand)
 
-      case End() => return state.out.mkString(",")
+      case End => return state.out.mkString(",")
     }
 
     loop()

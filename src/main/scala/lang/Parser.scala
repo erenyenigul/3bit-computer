@@ -24,13 +24,7 @@ object Parser extends RegexParsers {
   private def yxl: Parser[Yxl] = op("1", literalOperand, Yxl(_))
   private def yst: Parser[Yst] = op("2", comboOperand, Yst(_))
   private def jnz: Parser[Jnz] = op("3", literalOperand, Jnz(_))
-
-  private def yxz: Parser[Yxz] = {
-    "4" ~ "," ~ literalOperand ^^ {
-      case _ ~ _ ~ rand => Yxz()
-    }
-  }
-
+  private def yxz: Parser[Yxz] = "4" ~ "," ~ literalOperand ^^^ Yxz()
   private def out: Parser[Out] = op("5", comboOperand, Out(_))
   private def ydv: Parser[Ydv] = op("6", comboOperand, Ydv(_))
   private def zdv: Parser[Zdv] = op("7", comboOperand, Zdv(_))

@@ -5,7 +5,6 @@ import computer.*
 import lang.Program
 
 import scala.collection.mutable.ListBuffer
-import scala.math.pow
 
 class State (var x: Int, var y: Int, var z: Int) {
   var ip: Int = 0

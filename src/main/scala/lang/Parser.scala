@@ -16,29 +16,14 @@ object Parser extends RegexParsers {
   private def comboOperand: Parser[ComboOperand] =
     "[0-6]".r ^^ { n => ComboOperand(n.toInt) }
 
-  private def xdv: Parser[Xdv] = {
-    "0" ~ "," ~ comboOperand ^^ {
-      case _ ~ _ ~ rand => Xdv(rand)
-    }
+  private def op[T, I](opcode: String, operand: Parser[I], constructor: I => T): Parser[T] = {
+    opcode ~ "," ~ operand ^^ { case _ ~ _ ~ rand => constructor(rand) }
   }
 
-  private def yxl: Parser[Yxl] = {
-    "1" ~ "," ~ literalOperand ^^ {
-      case _ ~ _ ~ rand => Yxl(rand)
-    }
-  }
-
-  private def yst: Parser[Yst] = {
-    "2" ~ "," ~ comboOperand ^^ {
-      case _ ~ _ ~ rand => Yst(rand)
-    }
-  }
-
-  private def jnz: Parser[Jnz] = {
-    "3" ~ "," ~ literalOperand ^^ {
-      case _ ~ _ ~ rand => Jnz(rand)
-    }
-  }
+  private def xdv: Parser[Xdv] = op("0", comboOperand, Xdv(_))
+  private def yxl: Parser[Yxl] = op("1", literalOperand, Yxl(_))
+  private def yst: Parser[Yst] = op("2", comboOperand, Yst(_))
+  private def jnz: Parser[Jnz] = op("3", literalOperand, Jnz(_))
 
   private def yxz: Parser[Yxz] = {
     "4" ~ "," ~ literalOperand ^^ {
@@ -46,23 +31,9 @@ object Parser extends RegexParsers {
     }
   }
 
-  private def out: Parser[Out] = {
-    "5" ~ "," ~ comboOperand ^^ {
-      case _ ~ _ ~ rand => Out(rand)
-    }
-  }
-
-  private def ydv: Parser[Ydv] = {
-    "6" ~ "," ~ comboOperand ^^ {
-      case _ ~ _ ~ rand => Ydv(rand)
-    }
-  }
-
-  private def zdv: Parser[Zdv] = {
-    "7" ~ "," ~ comboOperand ^^ {
-      case _ ~ _ ~ rand => Zdv(rand)
-    }
-  }
+  private def out: Parser[Out] = op("5", comboOperand, Out(_))
+  private def ydv: Parser[Ydv] = op("6", comboOperand, Ydv(_))
+  private def zdv: Parser[Zdv] = op("7", comboOperand, Zdv(_))
 
   private def instruction: Parser[Instruction] = xdv | yxl | yst | jnz | yxz | out | ydv | zdv
 

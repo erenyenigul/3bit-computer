@@ -66,4 +66,30 @@ class IntegrationTest extends AnyFunSuite {
       expected = ""
     )
   }
+
+  test("Extra example: complex operations") {
+    assertParseAndRunResultEquals(
+      code = "2,4,1,5,7,5,4,0,1,3,0,3,5,5",
+      state = State(7023, 0, 0),
+      expected = "2"
+    )
+  }
+
+  test("Extra example: random jumps") {
+    assertParseAndRunResultEquals(
+      code = "3,4,3,6,3,2",
+      state = State(1, 23, 23),
+      expected = ""
+    )
+  }
+
+  test("Extra example: no jump because 0") {
+    assertParseAndRunResultEquals(
+      code = "3,4,5,0",
+      state = State(0, 0, 0),
+      expected = "0"
+    )
+  }
+
+
 }

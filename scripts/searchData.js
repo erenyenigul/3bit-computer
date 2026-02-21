@@ -45,4 +45,5 @@ pages = [{"l":"index.html#","e":false,"i":"","n":"3bit-computer","t":"3bit-compu
 {"l":"computer/State$.html#","e":false,"i":"","n":"State","t":"State","d":"computer","k":"object","x":""},
 {"l":"computer/State$.html#initial-0","e":false,"i":"","n":"initial","t":"initial: State","d":"computer.State","k":"def","x":""},
 {"l":"$lessempty$greater$/disassemble.html#","e":false,"i":"","n":"disassemble","t":"disassemble","d":"","k":"class","x":""},
-{"l":"$lessempty$greater$/main.html#","e":false,"i":"","n":"main","t":"main","d":"","k":"class","x":""}];
+{"l":"$lessempty$greater$/main.html#","e":false,"i":"","n":"main","t":"main","d":"","k":"class","x":""},
+{"l":"docs/index.html#","e":false,"i":"","n":"3bit-computer","t":"3bit-computer","d":"","k":"static","x":""}];

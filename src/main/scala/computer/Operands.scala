@@ -1,7 +1,7 @@
 package computer
 
 /**
- * Opaque types for 3-bit and [0,6]-ranged operands.
+ * Opaque types for 3-bit and [0,6]-ranged operands. Introduces opaque-types for `LiteralOperand` and `ComboOperand`
  */
 
 object Operands {

@@ -10,6 +10,9 @@ import scala.util.parsing.combinator.*
  * A special parser for the specified language.
  * I could have just split the given strings and start executing the code right away.
  * However, I wanted to create something that is maintainable and extendable, even though it is just for an interview.
+ *
+ * Does not match every integer. For literals, it looks for numbers from 0-7, and for combos, it looks for 0-6.
+ * Puts every instruction to its own enum.
  */
 
 object Parser extends RegexParsers {

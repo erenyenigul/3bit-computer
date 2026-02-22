@@ -9,6 +9,8 @@ import math.min
 
 /**
  * Executes a given program with an initial state. `Program` and  `State` is provided in the constructor, then `run()` method should be called.
+ *
+ * Executes instructions with a tail recursive function.
  * @param program to execute
  * @param state to initialize the computer
  */

@@ -3,6 +3,10 @@ package disassembler
 import lang.Program
 import lang.Instruction.*
 
+/**
+ * creates a disassembly of a given program for understanding a given piece of code better.
+ * For now, we do pattern matching on instructions, but we could have a string field `name` to each instruction and used that.
+ */
 object Disassembler {
 
   def run(program: Program) : String = {

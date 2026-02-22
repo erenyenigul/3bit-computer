@@ -33,4 +33,13 @@ executes a given program with an initial state. Returns the output formed by the
 
 is an extra component I implemented. Converts a given program into a custom-made assembly for better understanding of a given code.
 
+### Tests
 
+Two different test suites are available. One is for parsing, the other is for integration tests, checking if the output of a given code is correct.
+
+
+## Design Choices
+
+Since I used a parser generator, and created a `Instruction` class that takes its operand as parameter, the instruction pointer no longer needs to increment by 2 in every step, but 1. This is because the `Program` is now a list of instructions, not instructions + operands. This requires a change to jump logic as well. The jump operand is divided by 2 (via bitshifts) so that we find the appropriate instruction in the program instruction list. 
+
+I used bitshifts to do divisions, and multiplication. The `module 8` is done via `& 7`.

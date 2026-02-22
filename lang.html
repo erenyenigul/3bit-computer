@@ -107,6 +107,7 @@
             <div class="cover">
              <div class="doc">
               <p>A special parser for the specified language. I could have just split the given strings and start executing the code right away. However, I wanted to create something that is maintainable and extendable, even though it is just for an interview.</p>
+              <p>Does not match every integer. For literals, it looks for numbers from 0-7, and for combos, it looks for 0-6. Puts every instruction to its own enum.</p>
              </div>
              <h2 class="h200">Attributes</h2>
              <dl class="attributes attributes-small">
@@ -163,8 +164,22 @@
           <div>
            <div class="originInfo"></div>
            <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>contains a list of instructions. Could be extended with metadata fields if optimization passes are introduced (highly unlikely :)).</p>
+            </div>
             <div class="cover">
-             <div class="doc"></div>
+             <div class="doc">
+              <p>contains a list of instructions. Could be extended with metadata fields if optimization passes are introduced (highly unlikely :)).</p>
+             </div>
+             <h2 class="h200">Value parameters</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               instructions
+              </dt>
+              <dd class="body-medium">
+               <p>of program</p>
+              </dd>
+             </dl>
              <h2 class="h200">Attributes</h2>
              <dl class="attributes attributes-small">
               <dt class="body-small">

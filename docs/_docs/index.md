@@ -43,3 +43,5 @@ Two different test suites are available. One is for parsing, the other is for in
 Since I used a parser generator, and created a `Instruction` class that takes its operand as parameter, the instruction pointer no longer needs to increment by 2 in every step, but 1. This is because the `Program` is now a list of instructions, not instructions + operands. This requires a change to jump logic as well. The jump operand is divided by 2 (via bitshifts) so that we find the appropriate instruction in the program instruction list. 
 
 I used bitshifts to do divisions, and multiplication. The `module 8` is done via `& 7`.
+
+Registers are 32-bit signed integers. (`Int` in Scala).

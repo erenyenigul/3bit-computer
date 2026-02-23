@@ -12,9 +12,7 @@ import lang.Parser
  */
 @main def main(x: Int, y: Int, z: Int, code: String): Unit = {
   Parser.parseAll(Parser.program, code) match {
-    case Parser.Failure(msg, _) => println(s"Error when parsing: $msg")
-    case Parser.Error(msg, _) => println(s"Error when parsing: $msg")
-
+    case failure: Parser.NoSuccess => println(s"${failure.next.pos.longString}\nParserError: ${failure.msg}\n")
     case Parser.Success(program, _) =>
       val state = State(x, y, z)
 
@@ -41,9 +39,7 @@ import lang.Parser
  */
 @main def disassemble(code: String): Unit = {
   Parser.parseAll(Parser.program, code) match {
-    case Parser.Failure(msg, _) => println(s"Error when parsing: $msg")
-    case Parser.Error(msg, _) => println(s"Error when parsing: $msg")
-
+    case failure: Parser.NoSuccess => println(s"${failure.next.pos.longString}\nParserError: ${failure.msg}\n")
     case Parser.Success(program, _) =>
       val disassembly = Disassembler.run(program)
 

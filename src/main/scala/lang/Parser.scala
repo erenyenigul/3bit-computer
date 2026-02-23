@@ -20,10 +20,12 @@ object Parser extends RegexParsers {
   override def skipWhitespace = true
 
   private def literalOperand: Parser[LiteralOperand] =
-    "[0-7]".r ^^ { n => LiteralOperand(n.toInt) }
+    "[0-7]".r ^^ { n => LiteralOperand(n.toInt) } |
+      err("Invalid literal operand. Must be a 3-bit integer (in range [0,7]).")
 
   private def comboOperand: Parser[ComboOperand] =
-    "[0-6]".r ^^ { n => ComboOperand(n.toInt) }
+    "[0-6]".r ^^ { n => ComboOperand(n.toInt) } |
+      err("Invalid combo operand. Must be in range [0,6].")
 
   private def op[T, I](opcode: String, operand: Parser[I], constructor: I => T): Parser[T] = {
     opcode ~ "," ~ operand ^^ { case _ ~ _ ~ rand => constructor(rand) }
@@ -38,7 +40,7 @@ object Parser extends RegexParsers {
   private def ydv: Parser[Ydv] = op("6", comboOperand, Ydv(_))
   private def zdv: Parser[Zdv] = op("7", comboOperand, Zdv(_))
 
-  private def instruction: Parser[Instruction] = xdv | yxl | yst | jnz | yxz | out | ydv | zdv
+  private def instruction: Parser[Instruction] = xdv | yxl | yst | jnz | yxz | out | ydv | zdv | err("Invalid opcode. Must be a 3-bit integer (in range [0,7]).")
 
   def program: Parser[Program] = {
     repsep(instruction, ",") ^^ { is => Program(is :+ End) }

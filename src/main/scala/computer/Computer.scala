@@ -20,9 +20,8 @@ class Computer (private val program: Program, private val state: State = State.i
    * Instruction fetching logic to be used in every computation step. Increments instruction pointer with every call.
    * @return Instruction
    */
-  private def fetch(): Instruction = {
-    // We don't do out-of-bounds checks here. The jumps are guaranteed to be within bounds.
-    // Checking with every fetch would be costly.
+  inline private def fetch(): Instruction = {
+    // We don't do out-of-bounds checks here. The jumps are guaranteed to be within bounds by validator.
 
     val next = program.instructions(state.ip)
     state.ip += 1
@@ -35,7 +34,7 @@ class Computer (private val program: Program, private val state: State = State.i
    * @param rand Combo Operand
    * @return Int
    */
-  private def comboToValue(rand: ComboOperand): Int = rand match {
+  inline private def comboToValue(rand: ComboOperand): Int = rand match {
     case ComboOperand(4) => state.x
     case ComboOperand(5) => state.y
     case ComboOperand(6) => state.z
@@ -66,7 +65,7 @@ class Computer (private val program: Program, private val state: State = State.i
         if (state.x != 0) {
           val LiteralOperand(l) = rand
 
-          state.ip = min(l >> 1, program.instructions.size-1)  // divide by 2 because we parsed the instructions and their arguments.
+          state.ip = l >> 1  // divide by 2 because we parsed the instructions and their arguments.
         }
       case Yxz =>
         state.y = state.y ^ state.z
@@ -81,7 +80,9 @@ class Computer (private val program: Program, private val state: State = State.i
       case Zdv(rand) =>
         state.z = state.x >> comboToValue(rand)
 
-      case End => return state.out.mkString(",")
+      case End =>
+        state.completed = true
+        return state.out.mkString(",")
     }
 
     loop()

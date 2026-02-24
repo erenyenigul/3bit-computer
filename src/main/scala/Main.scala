@@ -1,9 +1,24 @@
 import computer.{Computer, State}
 import disassembler.Disassembler
-import lang.Parser
+import lang.ValidatorResult.{InvalidProgram, ValidProgram}
+import lang.{Parser, Program, Validator}
+
+def parse(code: String): Either[String, Program] = {
+    Parser.parseAll(Parser.program, code) match {
+      case failure: Parser.NoSuccess => Left(s"${failure.next.pos.longString}\nParserError: ${failure.msg}\n")
+      case Parser.Success(program, _) => Right(program)
+    }
+}
+
+def validate(program: Program): Either[String, Program] = {
+  Validator.validate(program) match {
+    case InvalidProgram(errors) => Left(errors.mkString("\n"))
+    case ValidProgram(p) => Right(p)
+  }
+}
 
 /**
- * Executes a given code with initial register values. Parses the program, and then creates a `Computer` instance for execution.
+ * Executes a given code with initial register values. Parses the program, validates it, and then creates a `Computer` instance for execution.
  *
  * @param x initial register x value
  * @param y initial register y value
@@ -11,9 +26,10 @@ import lang.Parser
  * @param code to execute
  */
 @main def main(x: Int, y: Int, z: Int, code: String): Unit = {
-  Parser.parseAll(Parser.program, code) match {
-    case failure: Parser.NoSuccess => println(s"${failure.next.pos.longString}\nParserError: ${failure.msg}\n")
-    case Parser.Success(program, _) =>
+  val result = for {
+    program <- parse(code)
+    validated <- validate(program)
+  } yield {
       val state = State(x, y, z)
 
       val computer = Computer(
@@ -21,8 +37,10 @@ import lang.Parser
         state
       )
 
-      println(computer.run())
+      computer.run()
   }
+
+  println(result.merge)
 }
 
 /**
@@ -38,11 +56,12 @@ import lang.Parser
  * @param code to disassemble
  */
 @main def disassemble(code: String): Unit = {
-  Parser.parseAll(Parser.program, code) match {
-    case failure: Parser.NoSuccess => println(s"${failure.next.pos.longString}\nParserError: ${failure.msg}\n")
-    case Parser.Success(program, _) =>
-      val disassembly = Disassembler.run(program)
-
-      println(disassembly)
+  val result = for {
+    program <- parse(code)
+    validated <- validate(program)
+  } yield {
+    Disassembler.run(program)
   }
+
+  println(result.merge)
 }

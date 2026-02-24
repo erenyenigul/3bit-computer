@@ -37,6 +37,9 @@ is an extra component I implemented. Converts a given program into a custom-made
 
 Two different test suites are available. One is for parsing, the other is for integration tests, checking if the output of a given code is correct.
 
+### Validator
+
+checks for some extra conditions in a given program. Rejects a program with a jump that is out-of-bounds.
 
 ## Design Choices
 
